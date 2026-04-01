@@ -27,11 +27,13 @@ export default function Timer({ timeLeft, alias }: {
     timeLeft: number, alias: string
 }) {
     const [expirationDate, setExpirationDate] = useState(timeLeft + 1000 * 60 * 60 * 24 * 30);
-    const [time, setTime] = useState(Math.floor((expirationDate - Date.now()) / 1000));
+    const [now, setNow] = useState(timeLeft);
+    
+    const time = Math.floor((expirationDate - now) / 1000);
     useEffect(() => {
-        if (expirationDate > Date.now())
-            setTimeout(() => setTime(Math.floor((expirationDate - Date.now()) / 1000)), 1000)
-    }, [time]);
+        if (expirationDate > now)
+            setTimeout(() => setNow(Math.min(Date.now(), expirationDate)), 1000)
+    }, [now]);
 
     return (
         <>
@@ -46,7 +48,7 @@ export default function Timer({ timeLeft, alias }: {
             </div>
             <ReactivateButton onClick={() => {
                 reactivate(alias);
-                setExpirationDate(Date.now() + 1000 * 60 * 60 * 24 * 30);
+                setExpirationDate(now + 1000 * 60 * 60 * 24 * 30);
             }}>Reactivate link</ReactivateButton>
         </>
     );

@@ -2,7 +2,7 @@
 
 import getCollection, { LINKS_COLLECTION } from "@/db";
 
-export default async function isLinkFree(alias: string): Promise<bool> {
+export default async function isLinkFree(alias: string): Promise<boolean> {
     let db = await getCollection(LINKS_COLLECTION);
 
     let ans = await db.findOne(
