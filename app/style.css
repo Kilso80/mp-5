@@ -5,9 +5,10 @@
     box-sizing: border-box;
     color: var(--main-text);
     background-color: transparent;
-    font-size: calc(2px + .75vmax + .75vh);
+    font-size: var(--font-size);
     font-family: 'Ubuntu', sans-serif;
     accent-color: var(--accent-color);
+    border-color: var(--main-text);
 }
 
 :root {
@@ -15,6 +16,15 @@
     --secondary-bg: hsl(266, 48%, 95%);
     --main-text: hsl(266, 48%, 10%);
     --accent-color: hsl(266, 48%, 45%);
+    --font-size: calc(2px + .75vmax + .75vh);
+}
+
+a {
+    transition: .3s ease-in-out;
+}
+
+a:hover {
+    color: var(--accent-color);
 }
 
 h1 {

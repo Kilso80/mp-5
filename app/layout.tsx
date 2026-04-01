@@ -42,6 +42,14 @@ const StyledLink = styled(Link)`
   font-size: 125%;
 `;
 
+const StyledFooterLink = styled(Link)`
+  transition: .3s ease-in-out;
+
+  &:hover {
+    color: var(--accent-color);
+  }
+`;
+
 export default function RootLayout({children}: Readonly<{
   children: React.ReactNode;
 }>) {
@@ -58,9 +66,9 @@ export default function RootLayout({children}: Readonly<{
           <Footer>
             <p>
               All Rights Reserved by Arthur Fiolet&nbsp;
-              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">
+              <StyledFooterLink href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">
                 CC BY-NC-SA 4.0
-              </a>
+              </StyledFooterLink>
               &nbsp;&copy;
             </p>
           </Footer>

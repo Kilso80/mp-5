@@ -8,6 +8,7 @@ export default async function createNewLink(alias: string, url: string) {
     db.insertOne({
         alias: alias,
         link: url,
-        timestamp: Date.now()
+        timestamp: Date.now(),
+        uses: 0
     });
 }

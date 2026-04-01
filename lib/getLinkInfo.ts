@@ -2,7 +2,7 @@
 
 import getCollection, { LINKS_COLLECTION } from "@/db";
 
-export default async function getLink(alias: string): Promise<string> {
+export default async function getLinkInfo(alias: string) {
     let db = await getCollection(LINKS_COLLECTION);
 
     db.deleteMany({
@@ -10,10 +10,7 @@ export default async function getLink(alias: string): Promise<string> {
             { $lt: Date.now() - 1000 * 60 * 60 * 24 * 30 }
     });
 
-    let ans = await db.findOneAndUpdate(
+    return await db.findOne(
         { alias: alias },
-        { $set: { timestamp: Date.now() }, $inc: { uses: 1 } }
-    );
-
-    return ans?.link ?? undefined;
+    );;
 }

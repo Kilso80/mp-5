@@ -1,9 +1,11 @@
 "use client";
-import getLink from "@/lib/getLink";
+import createNewLink from "@/lib/createNewLink";
+import isLinkFree from "@/lib/isLinkFree";
+import { url } from "inspector";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
-const StyledForm = styled.form`
+const StyledForm = styled.div`
     background-color: var(--secondary-bg);
     padding: 3vh 3vw;
     border-radius: 1vmin;
@@ -14,12 +16,13 @@ const StyledForm = styled.form`
     min-width: 50vw;
 `;
 
-const SubmitButton = styled.input`
+const SubmitButton = styled.button`
     padding: 1.5vh 1.5vw;
     border-radius: 1vmin;
     background-color: var(--accent-color);
     color: var(--secondary-bg);
     font-weight: 700;
+    border: none;
 
     &[disabled] {
         filter: grayscale(100%)
@@ -55,53 +58,69 @@ const URLInput = styled.input`
     &:focus-visible {
         border-color: var(--accent-color);
     }
+
+    &.invalid {
+        border-color: red;
+    }
 `;
 
 const Indicator = styled.p`
     text-align: right;
-    content: "This alias must be unique";
+    font-size: 80%;
+    color: grey;
+    height: 1vh;
 
-    &.valid {
-        content: "This alias must be unique";
+    &.valid, &.valid b {
+        color: green;
     }
 
-    &.invalid {
-        content: "This alias must be unique";
-    }
-
-    &.loading {
-        content: "This alias must be unique";
+    &.invalid, &.invalid b {
+        color: red;
     }
 `;
 
 export default function URLCreationForm() {
+    const [userURL, setUserURL] = useState("");
     const [alias, setAlias] = useState("");
     const [aliasStatus, setAliasStatus] = useState<boolean | undefined>(true);
 
     useEffect(() => {
         setAliasStatus(undefined);
-        getLink(alias).then(l => setAliasStatus(l === undefined));
+        isLinkFree(alias).then(ans => setAliasStatus(ans));
     }, [alias]);
+
+    const regex = /https?:\/\/[a-z0-9][a-z0-9.-]*\.[a-z]{2,}(\/[a-z0-9-_.%#]*)*(\?[a-z0-9-_%]*=[a-z0-9-_%]*(&[a-z0-9-_%]+=[a-z0-9-_%]*)*)?/i;
+    let urlIsValid = regex.test(userURL)
 
     return (
         <>
             <StyledForm>
                 <div>
                     <label htmlFor="url"><h2>URL</h2></label>
-                    <URLInput id="url" placeholder="https://thisisanurl.com/but/a/really/long/one?long=true" />
+                    <URLInput id="url" placeholder="https://thisisanurl.com/but/a/really/long/one?long=true"
+                        value={userURL} onChange={(e) => setUserURL(e.target.value)} className={urlIsValid ? "valid" : "invalid"} />
                 </div>
                 <div>
                     <label htmlFor="alias"><h2>Custom Alias</h2></label>
                     <Row>
                         <label htmlFor="alias">https://truc.vercel.app/r/</label>
-                        <AliasInput id="alias" placeholder="your-alias" value={alias} onChange={(e) => setAlias(e.target.value)} />
+                        <AliasInput id="alias" placeholder="your-alias" value={alias}
+                            onChange={(e) => {
+                                const filteredAlias = e.target.value.replaceAll(/[^A-Z0-9-_]/gi, "");
+                                setAlias(filteredAlias)
+                            }} />
                     </Row>
                     {alias === "" ? <Indicator className="indicator">This alias must be unique</Indicator> :
                         aliasStatus === true ? <Indicator className="valid"><b>{alias}</b> is available</Indicator> :
                             aliasStatus === false ? <Indicator className="invalid"><b>{alias}</b> is unavailable</Indicator> :
                                 <Indicator className="loading">Checking the availability of <b>{alias}</b>...</Indicator>}
                 </div>
-                <SubmitButton type="submit" disabled value="Create short URL" />
+                <SubmitButton disabled={alias === "" || aliasStatus !== true || !urlIsValid}
+                    onClick={() => {
+                        createNewLink(alias, userURL).then(() =>
+                            window.location.replace("/info/" + alias)
+                        )
+                    }}>Create short URL</SubmitButton>
             </StyledForm>
         </>
     );
