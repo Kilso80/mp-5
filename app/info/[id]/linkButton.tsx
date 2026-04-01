@@ -13,10 +13,23 @@ const StyledButton = styled.button`
 `;
 
 const Column = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 `;
 
 const Icon = styled.img`
     height: 4vh;
+`;
+
+const Link = styled.p`
+    font-weight: 500;
+`;
+
+const Subtitle = styled.p`
+    filter: opacity(70%);
+    font-size: 80%;
 `;
 
 export default function LinkButton({ href }: { href: string }) {
@@ -24,7 +37,7 @@ export default function LinkButton({ href }: { href: string }) {
 
     useEffect(() => {
         if (copied)
-            setTimeout(() => setCopied(false), 3000);
+            setTimeout(() => setCopied(false), 2500);
     }, [copied]);
 
 
@@ -34,8 +47,8 @@ export default function LinkButton({ href }: { href: string }) {
             setCopied(true);
         }}>
             <Column>
-                <p>{href}</p>
-                <p>Click to copy link</p>
+                <Link>{href}</Link>
+                <Subtitle>Click to copy link</Subtitle>
             </Column>
             <Icon src={copied ? "/tick.svg" : "/clipboard.svg"} alt="Copy Icon" />
         </StyledButton>
