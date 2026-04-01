@@ -25,7 +25,7 @@ export default function LinkButton({ href }: { href: string }) {
     useEffect(() => {
         if (copied)
             setTimeout(() => setCopied(false), 3000);
-    });
+    }, [copied]);
 
 
     return (
