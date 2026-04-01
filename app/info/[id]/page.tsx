@@ -42,7 +42,7 @@ export default async function Redirecter({ params }: { params: Promise<{ id: str
 
     return (
         <Card>
-            <LinkButton href={`https://truc.vercel.app/r/${id}`} />
+            <LinkButton href={`https://arthurl-shortener.vercel.app/r/${id}`} />
             <p>
                 Redirects to <a target="_blank" rel="noopener noreferrer" href={info.link}>{info.link}</a>
             </p>

@@ -58,7 +58,7 @@ export default function RootLayout({children}: Readonly<{
       <body>
         <MainContainer>
           <Header>
-            <StyledLink href={"/"}><h1>My URL shortener</h1></StyledLink>
+            <StyledLink href={"/"}><h1>ArthURL shortener</h1></StyledLink>
           </Header>
           <Main>
             {children}

@@ -103,7 +103,7 @@ export default function URLCreationForm() {
                 <div>
                     <label htmlFor="alias"><h2>Custom Alias</h2></label>
                     <Row>
-                        <label htmlFor="alias">https://truc.vercel.app/r/</label>
+                        <label htmlFor="alias">https://arthurl-shortener.vercel.app/r/</label>
                         <AliasInput id="alias" placeholder="your-alias" value={alias}
                             onChange={(e) => {
                                 const filteredAlias = e.target.value.replaceAll(/[^A-Z0-9-_]/gi, "");
