@@ -2,6 +2,11 @@ import "./style.css";
 import styled from "styled-components";
 import React from "react";
 import Link from "next/link";
+import type { Metadata } from 'next'
+ 
+export const metadata: Metadata = {
+  title: 'ArthURL shortener',
+};
 
 const Header = styled.header`
   background-color: var(--secondary-bg);
